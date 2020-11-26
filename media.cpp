@@ -157,7 +157,7 @@ void selectNode()
 				case 1:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->type,property))
+						if(!strcmp(modify->type,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -169,7 +169,7 @@ void selectNode()
 				case 2:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->actor,property))
+						if(!strcmp(modify->actor,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -181,7 +181,7 @@ void selectNode()
 				case 3:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->press,property))
+						if(!strcmp(modify->press,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -193,7 +193,7 @@ void selectNode()
 				case 4:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->area,property))
+						if(!strcmp(modify->area,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -205,7 +205,7 @@ void selectNode()
 				case 5:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->year,property))
+						if(!strcmp(modify->year,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -217,7 +217,7 @@ void selectNode()
 				case 6:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->style,property))
+						if(!strcmp(modify->style,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -229,7 +229,7 @@ void selectNode()
 				case 7:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->code,property))
+						if(!strcmp(modify->code,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -241,7 +241,7 @@ void selectNode()
 				case 8:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->magnet,property))
+						if(!strcmp(modify->magnet,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -253,7 +253,7 @@ void selectNode()
 				case 9:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->volumn,property))
+						if(!strcmp(modify->volumn,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -265,7 +265,7 @@ void selectNode()
 				case 10:
 					while(modify!=NULL)
 					{
-						if(strcmp(modify->length,property))
+						if(!strcmp(modify->length,property))
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
@@ -532,5 +532,169 @@ void modifyNode()
 }
 void caculateNode()
 {
-	
+	int selection;
+	int i=0,count,j;
+	char cWait;
+	Media *cur = List,*p;
+	if(cur == NULL)
+	{
+		printf("当前无数据可统计！");
+		printf("\n\n\n\t      Press Enter to continue...");
+
+     	cWait = getch();
+
+     	return;
+	}
+	else
+	{
+		printf("请选择您需要统计的属性：\n");
+		printf("1、作者  2、出版方  3、年份  4、风格\n");
+		scanf("%d",&selection);
+		switch(selection)
+		{
+			case 1:
+				while(cur!=NULL)
+				{
+					p = List;
+					count = 0;
+					j=0;
+					while(p!=NULL)
+					{
+						if(!strcmp(cur->actor,p->actor))
+						{
+							count++;
+							if(j<i)
+							{
+								count=0;
+								p=NULL;
+							}
+							else
+							{
+								p = p->next;
+							}
+						}
+						else
+						{
+							p = p->next;
+						}	
+						
+						j++;
+					}
+					if(count>0)
+						printf("%s\t%d\n",cur->actor,count);
+					i++;
+					cur=cur->next;
+				}
+				break;
+			case 2:
+				while(cur!=NULL)
+				{
+					p = List;
+					count = 0;
+					j=0;
+					while(p!=NULL)
+					{
+						if(!strcmp(cur->press,p->press))
+						{
+							count++;
+							if(j<i)
+							{
+								count=0;
+								p=NULL;
+							}
+							else
+							{
+								p = p->next;
+							}
+						}
+						else
+						{
+							p = p->next;
+						}	
+						
+						j++;
+					}
+					if(count>0)
+						printf("%s\t%d\n",cur->actor,count);
+					i++;
+					cur=cur->next;
+				}
+				break;
+			case 3:
+				while(cur!=NULL)
+				{
+					p = List;
+					count = 0;
+					j=0;
+					while(p!=NULL)
+					{
+						if(!strcmp(cur->year,p->year))
+						{
+							count++;
+							if(j<i)
+							{
+								count=0;
+								p=NULL;
+							}
+							else
+							{
+								p = p->next;
+							}
+						}
+						else
+						{
+							p = p->next;
+						}	
+						
+						j++;
+					}
+					if(count>0)
+						printf("%s\t%d\n",cur->actor,count);
+					i++;
+					cur=cur->next;
+				}
+				break;
+			case 4:
+				while(cur!=NULL)
+				{
+					p = List;
+					count = 0;
+					j=0;
+					while(p!=NULL)
+					{
+						if(!strcmp(cur->style,p->style))
+						{
+							count++;
+							if(j<i)
+							{
+								count=0;
+								p=NULL;
+							}
+							else
+							{
+								p = p->next;
+							}
+						}
+						else
+						{
+							p = p->next;
+						}	
+						
+						j++;
+					}
+					if(count>0)
+						printf("%s\t%d\n",cur->actor,count);
+					i++;
+					cur=cur->next;
+				}
+				break;
+			default:
+				break;
+		}
+		printf("\n\n\n\t      Press Enter to continue...");
+
+     	cWait = getch();
+
+     	return;
+	}
 }
