@@ -27,6 +27,8 @@ void selectNode();
 void caculateNode(); 
 void ProcessLoop();
 int PrnMainMenu();
+void showList(); 
+void cleanList(); 
 int main()
 {
 	
@@ -40,7 +42,7 @@ void ProcessLoop()//主循环
 
     iChoice = PrnMainMenu();
 
-     while (iChoice != 6)
+     while (iChoice != 7)
 
      {
          switch(iChoice)
@@ -72,6 +74,9 @@ void ProcessLoop()//主循环
             break;
 		case 5:
 			caculateNode();
+			break;
+		case 6:
+			showList();
 			break;
         default:
 
@@ -108,18 +113,20 @@ int PrnMainMenu()//菜单显示
     printf("\n\n\t                   4、查找");
 
     printf("\n\n\t                   5、统计");
+    
+    printf("\n\n\t                   6、列表");
 
-    printf("\n\n\t                   6、退出");
+    printf("\n\n\t                   7、退出");
 
-     printf("\n\n\n\n\n\n\t           请输入您的选择(1-6)===>");
+     printf("\n\n\n\n\n\n\t           请输入您的选择(1-7)===>");
 
      scanf("%d",&iChoice);     fflush(stdin);
 
-     while (iChoice < 1 || iChoice > 6)
+     while (iChoice < 1 || iChoice > 7)
 
      {
 
-        printf("\n您输入的序号有误，请重新输入(1-6)===>");
+        printf("\n您输入的序号有误，请重新输入(1-7)===>");
 
         scanf("%d",&iChoice);
 
@@ -129,13 +136,59 @@ int PrnMainMenu()//菜单显示
 
      return iChoice;
 
- }
+}
+void cleanList()
+{
+	Media *cur;
+	if(List == NULL)
+	{
+		
+	}
+	else
+	{
+		while(List != NULL)
+		{
+			cur = List;
+			List = List->next;
+			free(cur);
+		}
+	}
+}
+ void showList()
+ {
+ 	char cWait;
+ 	int index=1;
+ 	Media *item = List;
+ 	if(item == NULL)
+ 	{
+ 		printf("当前列表为空，您可以通过新建增加数据！\n");
+ 		printf("\n\n\n\t      Press Enter to continue...");
+
+     	cWait = getch();
+
+     	return;
+	}
+	else
+	{
+		while(item != NULL)
+		{
+			printf("%d、\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t\n",index,item->type,item->actor,item->press,item->area,item->year,item->style,item->code,item->magnet,item->volumn,item->length);
+			item = item->next;
+			index++;
+		}
+		printf("\n\n\n\t      Press Enter to continue...");
+
+     	cWait = getch();
+		cleanList();
+     	return;
+	}
+ } 
 void selectNode()
 {
 	int index,count=0; 
 	char property[40]; 
-	char cWait;
-	Media *modify = List;
+	char cWait='y';
+	Media *modify,*next;
 	if(modify == NULL)
 	{
 		printf("无数据可查询！");
@@ -147,6 +200,10 @@ void selectNode()
 	}
 	else
 	{
+		while(cWait == 'y') {
+		modify = List;
+		next = List;
+		count=0;
 		printf("请选择你需要筛选的属性项：\n");
 		printf("1、媒体类型  2、作者/表演者  3、出版者  4、地区  5、年份  6、风格  7、数字化编码类型  8、介质类型  9、体积  10、时长\n");
 		scanf("%d",&index);
@@ -161,8 +218,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -173,8 +257,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -185,8 +296,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -197,8 +335,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -209,8 +374,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -221,8 +413,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -233,8 +452,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -245,8 +491,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -257,8 +530,35 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;
@@ -269,18 +569,48 @@ void selectNode()
 						{
 							printf("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n",modify->type,modify->actor,modify->press,modify->area,modify->year,modify->style,modify->code,modify->magnet,modify->volumn,modify->length);
 							count++;
+							next = modify;
+							modify = modify->next;
 						}
-						modify = modify->next;
+						else
+						{
+							if(modify == List)
+							{
+								List = modify->next;
+								free(modify);
+								modify = List;
+								next = List;
+							}
+							else
+							{
+								next = modify->next;
+								if(next == NULL)
+								{
+									free(modify);
+									modify=NULL;
+								}
+								else
+								{
+									free(modify);
+									modify = next->next;
+									free(next);
+								}
+							}
+						}
+						
 					}
 					printf("共查询得%d条数据!\n",count);
 					break;	
 				default:
 					break;
 			} 
+			printf("是否继续查询？y/n\n"); 
+			cWait = getch();
+		}
 		printf("\n\n\n\t      Press Enter to continue...");
 
      	cWait = getch();
-
+		cleanList();
      	return;
  	}
 }
@@ -305,7 +635,7 @@ void readList()
     		Media *item = (Media *)malloc(sizeof(Media));
     		item->next = NULL;
     		fscanf(file,"%s%s%s%s%s%s%s%s%s%s",item->type,item->actor,item->press,item->area,item->year,item->style,item->code,item->magnet,item->volumn,item->length);
-    		printf("%d、\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t\n",index,item->type,item->actor,item->press,item->area,item->year,item->style,item->code,item->magnet,item->volumn,item->length);
+    	//	printf("%d、\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t\n",index,item->type,item->actor,item->press,item->area,item->year,item->style,item->code,item->magnet,item->volumn,item->length);
     		index++;
 			if(List==NULL)
 			{
@@ -694,7 +1024,7 @@ void caculateNode()
 		printf("\n\n\n\t      Press Enter to continue...");
 
      	cWait = getch();
-
+		cleanList();
      	return;
 	}
 }
